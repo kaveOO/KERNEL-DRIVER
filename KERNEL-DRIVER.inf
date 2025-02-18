@@ -1,0 +1,62 @@
+;
+; KERNEL-DRIVER.inf
+;
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = System ; TODO: specify appropriate Class
+ClassGuid   = {4d36e97d-e325-11ce-bfc1-08002be10318} ; TODO: specify appropriate ClassGuid
+Provider    = %ManufacturerName%
+CatalogFile = KERNEL-DRIVER.cat
+DriverVer   = ; TODO: set DriverVer in stampinf property pages
+PnpLockdown = 1
+
+[DestinationDirs]
+DefaultDestDir = 13
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+KERNEL-DRIVER.sys = 1,,
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName% = Standard,NT$ARCH$.10.0...16299 ; %13% support introduced in build 16299
+
+[Standard.NT$ARCH$.10.0...16299]
+%KERNEL-DRIVER.DeviceDesc% = KERNEL-DRIVER_Device, Root\KERNEL-DRIVER ; TODO: edit hw-id
+
+[KERNEL-DRIVER_Device.NT]
+CopyFiles = File_Copy
+
+[File_Copy]
+KERNEL-DRIVER.sys
+
+;-------------- Service installation
+[KERNEL-DRIVER_Device.NT.Services]
+AddService = KERNEL-DRIVER,%SPSVCINST_ASSOCSERVICE%, KERNEL-DRIVER_Service_Inst
+
+; -------------- KERNEL-DRIVER driver install sections
+[KERNEL-DRIVER_Service_Inst]
+DisplayName    = %KERNEL-DRIVER.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %13%\KERNEL-DRIVER.sys
+
+[KERNEL-DRIVER_Device.NT.Wdf]
+KmdfService = KERNEL-DRIVER, KERNEL-DRIVER_wdfsect
+
+[KERNEL-DRIVER_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE = 0x00000002
+ManufacturerName = "<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+DiskName = "KERNEL-DRIVER Installation Disk"
+KERNEL-DRIVER.DeviceDesc = "KERNEL-DRIVER Device"
+KERNEL-DRIVER.SVCDESC = "KERNEL-DRIVER Service"
