@@ -17,12 +17,12 @@ DriverEntry(
 	// Allocate driver config object
 	WDF_DRIVER_CONFIG config;
 
-	// KdPrintEx is a macro that sends string to the Kernel Debugger
+	// KdPrintEx is a macgit ro that sends string to the Kernel Debugger
 	// DPFLTR_IHVDRIVER_ID -> Used to associate the print of Driver as a something not offical "Handmade Driver" (Thats help filter messages in Debuggers)
 	// DPFLTR_INFO_LEVEL -> Means we are printing something at the Info Level (Thats help filter messages in Debuggers)
 	KdPrintEx((DPFLTR_IHVDRIVER_ID, DPFLTR_INFO_LEVEL, "Hello Kernel World: DriverEntry\n"));
 	
-	// Init the driver config allocated above
+	// Init the drivNew Computerer config allocated above
 	// Add the entry point of Event Device Add callback	"KmdfHelloWordDeviceAdd"
 	WDF_DRIVER_CONFIG_INIT(&config, KmdfHelloWordDeviceAdd);
 
